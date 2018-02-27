@@ -20,5 +20,37 @@ public class Building {
             fetch = FetchType.EAGER)
     private Set<Room> rooms = new HashSet<>();
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Set<Room> getRooms() {
+        return rooms;
+    }
+
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+
+    @Override
+    public String toString() {
+        return "Building{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", rooms=" + rooms.size() +
+                '}';
+    }
 }

@@ -6,7 +6,7 @@
 	<groupId>com.s305089.software</groupId>
 	<artifactId>oslomet-asgmt3</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>oslomet-asgmt3</name>
 	<description>Assignment 3 - DAVE3615</description>
