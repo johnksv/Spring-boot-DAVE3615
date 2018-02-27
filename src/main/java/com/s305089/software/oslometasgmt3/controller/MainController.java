@@ -8,11 +8,15 @@ import com.s305089.software.oslometasgmt3.dao.RoomDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
+@RequestMapping("/")
 public class MainController {
 
     private Logger log = LogManager.getRootLogger();
@@ -26,14 +30,15 @@ public class MainController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public String hello() {
+    public ModelAndView hello() {
         buildingDao.findAll().forEach(System.out::println);
 
 
-        return "Hello";
+        return new ModelAndView("index");
     }
 
     @RequestMapping(value = "populate", method = RequestMethod.GET)
+    @ResponseBody
     public String populate() {
         Building b = new Building();
         b.setName("P35");
