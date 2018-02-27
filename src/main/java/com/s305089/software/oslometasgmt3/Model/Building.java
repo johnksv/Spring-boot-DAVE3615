@@ -1,0 +1,24 @@
+package com.s305089.software.oslometasgmt3.Model;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+public class Building {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotNull
+    private String name;
+    @NotNull
+    private String address;
+
+    @OneToMany(mappedBy = "building",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private Set<Room> rooms = new HashSet<>();
+
+
+}
