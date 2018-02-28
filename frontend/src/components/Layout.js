@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { NavMenu } from './NavMenu';
+import { NavigationMenu } from './NavigationMenu';
 
 export class Layout extends React.Component {
-    public render() {
+    render() {
         return <div className='container-fluid'>
             <div className='row'>
                 <div className='col-sm-3'>
-                    <NavMenu />
+                    <NavigationMenu />
                 </div>
                 <div className='col-sm-9'>
                     { this.props.children }

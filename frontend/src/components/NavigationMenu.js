@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 export class NavigationMenu extends React.Component {
-    public render() {
+    render() {
         return <div className='main-nav'>
             <div className='navbar navbar-inverse'>
                 <div className='navbar-header'>
@@ -12,7 +12,7 @@ export class NavigationMenu extends React.Component {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={ '/' }>LuftKlar kundeservice</Link>
+                    <Link className='navbar-brand' to={ '/' }>Spring boot - Assignment 3</Link>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
