@@ -1,5 +1,7 @@
 package com.s305089.software.oslometasgmt3.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -18,6 +20,7 @@ public class Building {
     @OneToMany(mappedBy = "building",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Room> rooms = new HashSet<>();
 
     public Integer getId() {

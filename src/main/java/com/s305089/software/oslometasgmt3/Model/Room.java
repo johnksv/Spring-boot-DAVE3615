@@ -1,5 +1,7 @@
 package com.s305089.software.oslometasgmt3.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -13,8 +15,9 @@ public class Room {
     @NotNull
     private Integer floor;
     @ManyToOne()
+    @JsonIgnore
     private Building building;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Category category;
 
     public Integer getId() {
