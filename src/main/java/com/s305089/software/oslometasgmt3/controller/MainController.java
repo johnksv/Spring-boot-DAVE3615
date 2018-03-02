@@ -1,7 +1,8 @@
 package com.s305089.software.oslometasgmt3.controller;
 
-import com.s305089.software.oslometasgmt3.Model.Building;
-import com.s305089.software.oslometasgmt3.Model.Room;
+import com.s305089.software.oslometasgmt3.model.Building;
+import com.s305089.software.oslometasgmt3.model.Category;
+import com.s305089.software.oslometasgmt3.model.Room;
 import com.s305089.software.oslometasgmt3.dao.BuildingDao;
 import com.s305089.software.oslometasgmt3.dao.CategoryDao;
 import com.s305089.software.oslometasgmt3.dao.RoomDao;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -33,7 +33,6 @@ public class MainController {
     public ModelAndView hello() {
         buildingDao.findAll().forEach(System.out::println);
 
-
         return new ModelAndView("index");
     }
 
@@ -48,6 +47,11 @@ public class MainController {
         r.setName("PI-243");
         r.setFloor(2);
         r.setBuilding(b);
+
+        Category c = new Category();
+        c.setName("Auditorium");
+
+        r.setCategory(c);
 
         buildingDao.save(b);
         roomDao.save(r);

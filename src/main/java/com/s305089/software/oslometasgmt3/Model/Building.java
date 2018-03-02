@@ -1,4 +1,4 @@
-package com.s305089.software.oslometasgmt3.Model;
+package com.s305089.software.oslometasgmt3.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import java.util.Set;
 public class Building {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @NotNull
     private String name;
     @NotNull
@@ -20,6 +20,9 @@ public class Building {
             fetch = FetchType.EAGER)
     private Set<Room> rooms = new HashSet<>();
 
+    public Integer getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }

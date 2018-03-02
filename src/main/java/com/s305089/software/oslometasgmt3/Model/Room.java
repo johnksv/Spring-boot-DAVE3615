@@ -1,4 +1,4 @@
-package com.s305089.software.oslometasgmt3.Model;
+package com.s305089.software.oslometasgmt3.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @NotNull
     private String name;
     @NotNull
@@ -16,6 +16,10 @@ public class Room {
     private Building building;
     @OneToOne
     private Category category;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

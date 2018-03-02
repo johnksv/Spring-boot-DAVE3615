@@ -1,4 +1,4 @@
-package com.s305089.software.oslometasgmt3.Model;
+package com.s305089.software.oslometasgmt3.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +11,13 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @NotNull
     private String name;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
