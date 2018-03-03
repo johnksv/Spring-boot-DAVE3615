@@ -34,14 +34,20 @@ export default class CreateForm extends React.Component {
     render() {
         const {type} = this.props;
 
-        if (type === "building") {
-            return this.createBuilding()
-        } else if (type === "room") {
-            return this.createRoom()
-        } else if (type === "category") {
-            return this.createBuilding()
+        let data;
+        if (type === "buildings") {
+            data =this.createBuilding();
+
+        } else if (type === "rooms") {
+            data =this.createRoom()
         }
 
+        return (
+            <React.Fragment>
+                <h3>New {type}</h3>
+                {data}
+            </React.Fragment>
+        );
     }
 
     createBuilding() {

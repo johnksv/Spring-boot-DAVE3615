@@ -21,7 +21,6 @@ public class Building {
     @OneToMany(mappedBy = "building",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    @JsonIgnore
     private Set<Room> rooms = new HashSet<>();
 
 

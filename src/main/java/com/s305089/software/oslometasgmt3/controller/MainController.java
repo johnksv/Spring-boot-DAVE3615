@@ -23,8 +23,6 @@ public class MainController {
     @Autowired
     BuildingDao buildingDao;
     @Autowired
-    CategoryDao categoryDao;
-    @Autowired
     RoomDao roomDao;
 
 

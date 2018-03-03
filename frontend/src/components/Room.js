@@ -1,41 +1,52 @@
 import * as React from 'react';
 import {Button, Input} from "reactstrap";
 import axios from "axios/index";
-import {Link} from 'react-router-dom';
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080/'
 });
 
-export default class Building extends React.Component {
+export default class Room extends React.Component {
 
     constructor(props) {
         super(props);
-        const {name, address} = this.props.data;
+        const {name, floor, category} = this.props.room;
 
         this.state = {
             editing: false,
             editName: name,
-            editAddress: address
+            editFloor: floor,
+            editCategory: category.name
         }
     }
 
     render() {
-        const {id, numberOfRooms} = this.props.data;
+        const buildingId = this.props.buildingId;
+        const id  = this.props.room.id;
         const name = this.state.editName;
-        const address = this.state.editAddress;
+        const floor = this.state.editFloor;
+        const category = this.state.editCategory;
+
         const btnAttr = {className: "mr-2 mt-2"};
         if (this.state.editing) {
             return (
                 <React.Fragment>
                     <td>{id}</td>
-                    <td><Input value={name} type="text" name="name" id="name"
+                    <td>
+                        <Input value={name} type="text" name="name" id="name"
                                pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
-                               onChange={(event) => this.handleInputChange(event, "editName")}/></td>
-                    <td><Input value={address} type="text" name="address" id="address"
+                               onChange={(event) => this.handleInputChange(event, "editName")}/>
+                    </td>
+                    <td>
+                        <Input value={floor} type="text" name="floor" id="floor"
                                pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
-                               onChange={(event) => this.handleInputChange(event, "editAddress")}/></td>
-                    <td>{numberOfRooms}</td>
+                               onChange={(event) => this.handleInputChange(event, "editFloor")}/>
+                    </td>
+                    <td>
+                        <Input value={category} type="text" name="category" id="category"
+                               pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
+                               onChange={(event) => this.handleInputChange(event, "editCategory")}/>
+                    </td>
                     <td>
                         <Button {...btnAttr} color="success"
                                 onClick={() => this.submitChanges()}>Save</Button>
@@ -49,16 +60,18 @@ export default class Building extends React.Component {
                 <React.Fragment>
                     <td>{id}</td>
                     <td>{name}</td>
-                    <td>{address}</td>
-                    <td>{numberOfRooms}</td>
+                    <td>{floor}</td>
+                    <td>{category}</td>
                     <td>
                         <Button {...btnAttr} color="info"
-                                onClick={() => this.setState({editing: true})}>Edit</Button>
-
-                        <Link className="btn btn-info mr-2 mt-2" to={`/details/${id}`}>Rooms</Link>
+                                onClick={() => this.setState({editing: true})}>
+                            Edit
+                        </Button>
 
                         <Button {...btnAttr} color="danger"
-                                onClick={() => this.props.onDelete("buildings", id)}>Delete</Button>
+                                onClick={() => this.props.onDelete("rooms", id, buildingId)}>
+                            Delete
+                        </Button>
                     </td>
                 </React.Fragment>
             )
@@ -66,12 +79,12 @@ export default class Building extends React.Component {
     }
 
     resetEdit() {
-        const {name, address} = this.props.data;
+        const {name, floor} = this.props.room;
         this.setState(
             {
                 editing: false,
                 editName: name,
-                editAddress: address
+                editFloor: floor
             });
     }
 
@@ -86,6 +99,7 @@ export default class Building extends React.Component {
 
     submitChanges() {
         const {id} = this.props.data;
+        //TODO: Fix so it goes to room
         const {editName, editAddress} = this.state;
 
         let formData = new FormData();

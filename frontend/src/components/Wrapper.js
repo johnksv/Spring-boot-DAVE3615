@@ -15,12 +15,8 @@ export default class Wrapper extends React.Component {
         super(props);
 
         this.state = {
-            activeBuildingId: this.props.match.params.id,
             activeRoomId: -1,
-            buildingHeaders: ["#", "Name", "Address", "Rooms", ""],
             buildingData: [],
-            roomHeaders: ["#", "Name", "Floor", "Category", ""],
-            roomData: [],
             userFormData: {},
             hasLoadedData: false,
             errorLoadningData: false
@@ -51,11 +47,33 @@ export default class Wrapper extends React.Component {
 
 
     render() {
+        if (this.props.match.params.buildingId) {
+            const id = this.props.match.params.buildingId;
+            const data = this.state.buildingData.find(element => element.id + "" === id);
+
+            if (data) {
+                return (
+                    <React.Fragment>
+                        <h1>Building: {data.name}</h1>
+                        <p>Number of rooms: {data.numberOfRooms}</p>
+
+                        <h2>Rooms</h2>
+                        <DisplayTable type={"rooms"} thead={this.state.roomHeaders} data={data}
+                                      onDelete={this.onDeleteEvent}/>
+                        <CreateForm type={"rooms"} onCreateSuccess={this.onCreateSuccess}/>
+                    </React.Fragment>
+                )
+            } else {
+                return <p>Invalid ID. No buildings with id {id}</p>
+            }
+        }
+
         return (
             <React.Fragment>
-                <DisplayTable thead={this.state.buildingHeaders} data={this.state.buildingData}
+                <h1>Buildings:</h1>
+                <DisplayTable type={"buildings"} thead={this.state.buildingHeaders} data={this.state.buildingData}
                               onDelete={this.onDeleteEvent}/>
-                <CreateForm type={"building"} onCreateSuccess={this.onCreateSuccess}/>
+                <CreateForm type={"buildings"} onCreateSuccess={this.onCreateSuccess}/>
             </React.Fragment>
         )
     }
@@ -83,19 +101,27 @@ export default class Wrapper extends React.Component {
     }
 
 
-    onDeleteEvent(type, id) {
-        let field;
-        let data;
+    onDeleteEvent(type, id, parentId = undefined) {
+        let newState;
+        let url;
+
         if (type === "buildings") {
-            field = "buildingData";
-            data = this.state.buildingData.filter(element => element.id !== id);
+            url = `buildings/${id}`;
+            newState = this.state.buildingData.filter(element => element.id !== id);
+
+        } else if (type === "rooms") {
+            url = `rooms/${id}`;
+            let parent = this.state.buildingData.find(element => element.id === parentId);
+            let newRooms= parent.rooms.filter(element => element.id !== id);
+            //TODO:Check how to remove from state
+            debugger;
         }
 
-        instance.delete(`${type}/${id}`).then(resp => {
+        instance.delete(url).then(resp => {
             this.setState({
-                [field]: data
+                buildingData: newState
             });
-            console.log("Data with id " + id + " is deleted");
+            console.log("Data with id " + id + " is deleted, of type " + type);
         });
     }
 

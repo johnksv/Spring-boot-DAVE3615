@@ -6,19 +6,25 @@ export class Home extends React.Component {
             <h1>Assignment 3 - Software Architecture and Frameworks</h1>
             <p>Welcome to the home screen of assignment 3.</p>
             <p>
-                A simple CRUD application to manage buildings and their rooms. Please see the PDF for assignment detalis.
+                A simple CRUD application to manage buildings and their rooms. Please see the PDF for assignment
+                detalis.
             </p>
 
-            <br />
+            <br/>
             <hr/>
 
             <p>In this project i have used these technologies:</p>
             <ul>
-                <li><a href='https://projects.spring.io/spring-boot/'>Spring boot</a> as backend (with MySQL database)</li>
+                <li><a href='https://projects.spring.io/spring-boot/'>Spring boot</a> as backend (with MySQL database)
+                </li>
                 <li><a href='https://facebook.github.io/react/'>React</a> as frontend</li>
 
             </ul>
-            Thanks to <a href='https://github.com/facebook/create-react-app'>create-react-app</a> for easy and fast setup.
+            <p>Thanks to <a href='https://github.com/facebook/create-react-app'>create-react-app</a> for taking care of
+                most of the setup.</p>
+            <p>
+                Please read the README for more information.
+            </p>
         </div>;
     }
 }
