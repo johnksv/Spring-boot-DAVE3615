@@ -1,6 +1,7 @@
 package com.s305089.software.oslometasgmt3.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,12 @@ public class Building {
             fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Room> rooms = new HashSet<>();
+
+
+    @JsonProperty("numberOfRooms")
+    public int getRoomsSize() {
+        return rooms.size();
+    }
 
     public Integer getId() {
         return id;

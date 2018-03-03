@@ -46,6 +46,7 @@ public class BuildingController {
         return buildingDao.findById(id);
     }
 
+    @CrossOrigin
     @DeleteMapping(value = "/{id}")
     public HttpStatus delete(@PathVariable Integer id) {
         Optional<Building> building = buildingDao.findById(id);
