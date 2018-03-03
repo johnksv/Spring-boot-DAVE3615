@@ -57,7 +57,7 @@ export default class Building extends React.Component {
                                 onClick={() => console.log("todo")}>Rooms</Button>
 
                         <Button {...btnAttr} color="danger"
-                                onClick={() => this.props.onDelete("building", id)}>Delete</Button>
+                                onClick={() => this.props.onDelete("buildings", id)}>Delete</Button>
                     </td>
                 </React.Fragment>
             )
@@ -87,19 +87,22 @@ export default class Building extends React.Component {
         const {id} = this.props.data;
         const {editName, editAddress} = this.state;
 
-        let bodyFormData = new FormData();
-        bodyFormData.set("id", id);
-        bodyFormData.set("name", editName);
-        bodyFormData.set("address", editAddress);
+        let formData = new FormData();
+        formData.set("id", id);
+        formData.set("name", editName);
+        formData.set("address", editAddress);
+        formData.append('_method', 'PATCH');
 
         console.log("updating building");
+
         instance
-            .patch("buildings", bodyFormData)
+            .patch("buildings", formData)
             .then(resp => {
                 console.log(resp);
                 this.setState({editing: false});
                 this.props.onUpdateSuccess("building", resp.data);
-            });
+            })
+            .catch(err => console.log(err));
 
     }
 

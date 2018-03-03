@@ -32,39 +32,37 @@ export default class Wrapper extends React.Component {
 
     componentDidMount() {
         instance
-            .get(`"buldings"`)
+            .get("buildings")
             .then(resp => {
-                if (resp.status === 200) {
-                    this.setState(
-                        {
-                            buildingData: resp.data,
-                            hasLoadedData: true,
-                            errorLoadningData: false,
-                        });
-                } else {
-                    this.setState(
-                        {
-                            data: null,
-                            hasLoadedData: true,
-                            errorLoadningData: true,
-                        });
-                }
-            });
+
+                this.setState(
+                    {
+                        buildingData: resp.data,
+                        hasLoadedData: true,
+                        errorLoadningData: false,
+                    });
+            }).catch(error => this.setState(
+            {
+                data: null,
+                hasLoadedData: true,
+                errorLoadningData: true,
+            }));
     }
 
 
     render() {
         return (
             <React.Fragment>
-                <DisplayTable type={this.props.type} data={this.state.buildingData}  onDelete={this.onDeleteEvent}/>
-                <CreateForm type={this.props.type} onCreateSuccess={this.onCreateSuccess}/>
+                <DisplayTable thead={this.state.buildingHeaders} data={this.state.buildingData}
+                              onDelete={this.onDeleteEvent}/>
+                <CreateForm type={"building"} onCreateSuccess={this.onCreateSuccess}/>
             </React.Fragment>
         )
     }
 
 
-    onCreateSuccess(type, newEntity){
-        if(type === "building"){
+    onCreateSuccess(type, newEntity) {
+        if (type === "building") {
             const newData = [...this.state.buildingData, newEntity];
             this.setState(
                 {
@@ -73,8 +71,8 @@ export default class Wrapper extends React.Component {
         }
     }
 
-    onUpdateSuccess(type, newEntity){
-        if(type === "building"){
+    onUpdateSuccess(type, newEntity) {
+        if (type === "building") {
             //TODO: Insert updated
             const newData = [...this.state.buildingData, newEntity];
             this.setState(
@@ -86,13 +84,17 @@ export default class Wrapper extends React.Component {
 
 
     onDeleteEvent(type, id) {
+        let field;
         let data;
-        if(type === "building"){
+        if (type === "buildings") {
+            field = "buildingData";
             data = this.state.buildingData.filter(element => element.id !== id);
         }
 
         instance.delete(`${type}/${id}`).then(resp => {
-            this.setState({data});
+            this.setState({
+                [field]: data
+            });
             console.log("Data with id " + id + " is deleted");
         });
     }
