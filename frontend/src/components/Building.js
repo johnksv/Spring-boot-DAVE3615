@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Button} from "reactstrap";
 
 
-export class Building extends  React.Component {
+export default class Building extends  React.Component {
 
     constructor(props){
         super(props);

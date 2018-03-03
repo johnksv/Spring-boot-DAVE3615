@@ -1,17 +1,13 @@
 import * as React from 'react';
 import axios from "axios";
 import {Button, Table, Form, FormGroup, Input, Label, FormText} from "reactstrap";
-import { Building } from "./Building";
+import Building from "./Building";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8080/',
-    timeout: 1000,
+    baseURL: 'http://localhost:8080/'
   });
 
-
-const validFormat = 'Please use only english characters and numbers, "-" and space is also allowed.';
-
-export class DisplayTable extends  React.Component {
+export default class DisplayTable extends  React.Component {
 
     constructor(props){
         super(props);
@@ -59,20 +55,7 @@ export class DisplayTable extends  React.Component {
                 </Table>
 
 
-        <Form onSubmit={(event) => this.submitForm(event)}>
-                    <FormGroup>
-                        <Label for="name">Name</Label>
-                        <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]**" onChange={(event) => this.handleInputChange(event,"name")} />
-                        <FormText>{validFormat}</FormText>
-                    </FormGroup>
-                
-                    <FormGroup>
-                        <Label for="address">Address</Label>
-                        <Input type="text" name="address" id="address" pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*" onChange={(event) => this.handleInputChange(event, "address")}/>
-                        <FormText>{validFormat}</FormText>
-                    </FormGroup>
-                    <Button color="primary" type="submit">Add new</Button>
-              </Form>                
+                       
             </div>
         )
     }
@@ -90,28 +73,6 @@ export class DisplayTable extends  React.Component {
         
     }
 
-    handleInputChange(event, field){
     
-        const val = event.target.value;
-        this.setState({
-            userData: {...this.state.userData, [field]: val }
-        });
-    }
-
-    submitForm(event) {
-        event.preventDefault();
-        const type = this.state.type;
-        const userData = this.state.userData;
-    
-        var bodyFormData = new FormData();
-        bodyFormData.set("name", userData.name);
-        bodyFormData.set("address", userData.address);
-
-        console.log(bodyFormData);
-        instance
-            .post(type, bodyFormData)
-            .then(resp => console.log(resp));
-            
-    }
 
 }
