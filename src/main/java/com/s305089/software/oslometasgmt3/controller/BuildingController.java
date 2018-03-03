@@ -47,7 +47,7 @@ public class BuildingController {
         return buildingDao.findById(id);
     }
 
-    @DeleteMapping
+    @DeleteMapping(value = "/{id}")
     public HttpStatus delete(@PathVariable Integer id) {
         Optional<Building> building = buildingDao.findById(id);
         if (building.isPresent()) {
