@@ -15,7 +15,6 @@ public class Room {
     @NotNull
     private Integer floor;
     @ManyToOne()
-    @JsonIgnore
     private Building building;
     @OneToOne(cascade = CascadeType.ALL)
     private Category category;

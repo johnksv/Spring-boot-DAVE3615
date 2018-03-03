@@ -8,25 +8,26 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/buildings/{buildingId}/rooms/{roomId}/category")
+@RequestMapping("/rooms/{roomId}/category")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CategoryController {
 
     @Autowired
     CategoryDao categoryDao;
 
     @GetMapping()
-    public HttpStatus getCategory(@PathVariable Long buildingId, @PathVariable Long roomId) {
+    public HttpStatus getCategory( @PathVariable Long roomId) {
 
         return HttpStatus.OK;
     }
 
     @PostMapping()
-    public HttpStatus createCategory(@PathVariable Long buildingId, @PathVariable Long roomId) {
+    public HttpStatus createCategory( @PathVariable Long roomId) {
         return HttpStatus.OK;
     }
 
     @PutMapping()
-    public Object updateCategory(@PathVariable Long buildingId, @PathVariable Long roomId, @Validated Category category) {
+    public Object updateCategory( @PathVariable Long roomId, @Validated Category category) {
         if (category.getId() != null && categoryDao.findById(category.getId()).isPresent()) {
             return categoryDao.save(category);
         }
@@ -34,7 +35,7 @@ public class CategoryController {
     }
 
     @DeleteMapping()
-    public HttpStatus removeCategory(@PathVariable Long buildingId, @PathVariable Long roomId) {
+    public HttpStatus removeCategory( @PathVariable Long roomId) {
         return HttpStatus.OK;
     }
 

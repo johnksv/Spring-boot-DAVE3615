@@ -11,20 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/buildings/{buildingId}/rooms")
+@RequestMapping("/rooms")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RoomController {
 
     @Autowired
     RoomDao roomDao;
 
     @PostMapping
-    public HttpStatus createRoom(@PathVariable Long buildingId, @Validated Room room) {
+    public HttpStatus createRoom(@Validated Room room) {
         roomDao.save(room);
         return HttpStatus.CREATED;
     }
 
     @PutMapping
-    public Object updateRoom(@PathVariable Long buildingId, Room room) {
+    public Object updateRoom(Room room) {
         if (room.getId() != null && roomDao.findById(room.getId()).isPresent()) {
             return roomDao.save(room);
         }
@@ -32,17 +33,17 @@ public class RoomController {
     }
 
     @GetMapping
-    public Object getAllRooms(@PathVariable Long buildingId) {
+    public Object getAllRooms() {
         return roomDao.findAll();
     }
 
     @GetMapping(value = "/{id}")
-    public Object getRoom(@PathVariable Long buildingId, @PathVariable Integer id) {
+    public Object getRoom(@PathVariable Integer id) {
         return roomDao.findById(id);
     }
 
     @PostMapping(value = "/{id}")
-    public HttpStatus delete(@PathVariable Long buildingId, @PathVariable Integer id) {
+    public HttpStatus delete(@PathVariable Integer id) {
         Optional<Room> room = roomDao.findById(id);
         if (room.isPresent()) {
             roomDao.delete(room.get());
