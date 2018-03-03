@@ -21,10 +21,9 @@ public class BuildingController {
     BuildingDao buildingDao;
 
     @PostMapping
-    public HttpStatus create(@ModelAttribute("building") @Validated Building building) {
+    public Object create(@ModelAttribute("building") @Validated Building building) {
         if (building != null) {
-            buildingDao.save(building);
-            return HttpStatus.CREATED;
+            return buildingDao.save(building);
         }
         return HttpStatus.NOT_FOUND;
     }
