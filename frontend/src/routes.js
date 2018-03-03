@@ -7,7 +7,7 @@ import Wrapper from "./components/Wrapper";
 
 export const routes = <Layout>
     <Route exact path="/" component={ Home } />
-    <Route exact path="/buildings" render={() => <Wrapper type="Buildings" />}  />
-    <Route exact path="/rooms" render={() => <Wrapper type="Rooms" /> }/>
+    <Route exact path="/details" component={Wrapper}  />
+    <Route exact path="/details/:id" component={Wrapper}  />
 
 </Layout>;

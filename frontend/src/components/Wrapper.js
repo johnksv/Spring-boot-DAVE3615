@@ -13,10 +13,13 @@ export default class Wrapper extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
-            activeBuildingId: -1,
+            activeBuildingId: this.props.match.params.id,
             activeRoomId: -1,
+            buildingHeaders: ["#", "Name", "Address", "Rooms", ""],
             buildingData: [],
+            roomHeaders: ["#", "Name", "Floor", "Category", ""],
             roomData: [],
             userFormData: {},
             hasLoadedData: false,
@@ -28,9 +31,8 @@ export default class Wrapper extends React.Component {
     }
 
     componentDidMount() {
-        const type = this.props.type;
         instance
-            .get(`${type}`)
+            .get(`"buldings"`)
             .then(resp => {
                 if (resp.status === 200) {
                     this.setState(

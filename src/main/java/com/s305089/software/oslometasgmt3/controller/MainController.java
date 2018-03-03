@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/")
 public class MainController {
 
     private Logger log = LogManager.getRootLogger();
@@ -29,10 +28,8 @@ public class MainController {
     RoomDao roomDao;
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value={"", "/", "details/**"}, method = RequestMethod.GET)
     public ModelAndView hello() {
-        buildingDao.findAll().forEach(System.out::println);
-
         return new ModelAndView("index");
     }
 
