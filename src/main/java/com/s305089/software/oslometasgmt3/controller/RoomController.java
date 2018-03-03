@@ -24,9 +24,9 @@ public class RoomController {
     }
 
     @PutMapping
-    public HttpStatus updateRoom(@PathVariable Long buildingId, Room room) {
+    public Object updateRoom(@PathVariable Long buildingId, Room room) {
         if (room.getId() != null && roomDao.findById(room.getId()).isPresent()) {
-            return HttpStatus.OK;
+            return roomDao.save(room);
         }
         return HttpStatus.NOT_FOUND;
     }
