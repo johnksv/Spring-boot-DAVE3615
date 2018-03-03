@@ -5,10 +5,10 @@ import Building from "./Building";
 export default class DisplayTable extends React.Component {
 
     render() {
-        const {data, onDelete} = this.props;
+        const {data, onDelete, onUpdateSuccess} = this.props;
         return (
             <div>
-                <Table responsive>
+                <Table responsive striped>
                     <thead>
                     <tr>
                         <th>#</th>
@@ -21,7 +21,8 @@ export default class DisplayTable extends React.Component {
                     <tbody>
                     {data.map(element => {
                         return <tr key={element.id}>
-                            <Building data={element} key={"B" + element.id} onDelete={onDelete}/>
+                            <Building data={element} key={"B" + element.id} onDelete={onDelete}
+                                      onUpdateSuccess={onUpdateSuccess} />
                         </tr>
                     })}
                     </tbody>
@@ -31,8 +32,6 @@ export default class DisplayTable extends React.Component {
             </div>
         )
     }
-
-
 
 
 }

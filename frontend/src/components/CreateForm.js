@@ -6,8 +6,7 @@ const instance = axios.create({
     baseURL: 'http://localhost:8080/'
   });
 
-
-const validFormat = 'Allowed characters are norewgian, numbers, "-" and space.';
+const validFormat = 'Allowed characters are norwegian, numbers, "-" and space.';
 
 export default class CreateForm extends  React.Component {
 

@@ -60,12 +60,25 @@ export default class Wrapper extends React.Component {
         )
     }
 
+
     onCreateSuccess(type, newEntity){
         if(type === "building"){
             const newData = [...this.state.buildingData, newEntity];
             this.setState(
-                {buildingData: newData}
-            );
+                {
+                    buildingData: newData
+                });
+        }
+    }
+
+    onUpdateSuccess(type, newEntity){
+        if(type === "building"){
+            //TODO: Insert updated
+            const newData = [...this.state.buildingData, newEntity];
+            this.setState(
+                {
+                    buildingData: newData
+                });
         }
     }
 

@@ -28,10 +28,10 @@ public class BuildingController {
         return HttpStatus.NOT_FOUND;
     }
 
-    @PutMapping
-    public HttpStatus update(@ModelAttribute("building") @Validated Building building) {
+    @PatchMapping
+    public Object update(@ModelAttribute("building") @Validated Building building) {
         if (building.getId() != null && buildingDao.findById(building.getId()).isPresent()) {
-            return HttpStatus.OK;
+            return buildingDao.save(building);
         }
         return HttpStatus.NOT_FOUND;
     }
