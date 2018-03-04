@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class RoomController {
 
     @Autowired
@@ -25,6 +24,7 @@ public class RoomController {
 
 
     @GetMapping(value = "/rooms/")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Object getAllRooms() {
         return roomDao.findAll();
     }
@@ -48,6 +48,7 @@ public class RoomController {
     }
 
     @PostMapping(value = "/buildings/{buildingID}/rooms")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Object createRoom(@PathVariable Integer buildingID, @ModelAttribute @Validated CreateRoomViewModel roomModel) {
 
         Optional<Building> building = buildingDao.findById(buildingID);
@@ -65,6 +66,7 @@ public class RoomController {
     }
 
     @DeleteMapping(value = "/buildings/{buildingID}/rooms/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public HttpStatus delete(@PathVariable Integer buildingID, @PathVariable Integer id) {
 
         Optional<Building> buildingOptional = buildingDao.findById(buildingID);

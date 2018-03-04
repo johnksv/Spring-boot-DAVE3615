@@ -45,9 +45,10 @@ export default class DisplayTable extends React.Component {
 
     buildingTable(data) {
         const {onDelete, onUpdateSuccess} = this.props;
-        return data.map(element => {
+        return data.buildingData.map(element => {
+            const numberOfRooms = data.roomData.filter(val => val.buildingId === element.id).length;
             return <tr key={element.id}>
-                <Building data={element} key={"B" + element.id} onDelete={onDelete}
+                <Building data={{...element, numberOfRooms}} key={"B" + element.id} onDelete={onDelete}
                           onUpdateSuccess={onUpdateSuccess}/>
             </tr>
         })
@@ -55,7 +56,7 @@ export default class DisplayTable extends React.Component {
 
     roomTable(data) {
         const {onDelete, onUpdateSuccess} = this.props;
-        return data.rooms.map(element => {
+        return data.roomData.map(element => {
             return <tr key={element.id}>
                 <Room room={element} key={"R" + element.id} onDelete={onDelete}
                           onUpdateSuccess={onUpdateSuccess} buildingId={data.id}/>

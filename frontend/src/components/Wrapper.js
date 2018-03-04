@@ -17,7 +17,7 @@ export default class Wrapper extends React.Component {
         this.state = {
             activeRoomId: -1,
             buildingData: [],
-            userFormData: {},
+            roomData: [],
             hasLoadedData: false,
             errorLoadningData: false
         };
@@ -30,16 +30,29 @@ export default class Wrapper extends React.Component {
         instance
             .get("buildings")
             .then(resp => {
+                this.setState({buildingData: resp.data});
+                this.loadRoomData();
+            }).catch(error => this.setState(
+            {
+                buildingData: [],
+                hasLoadedData: true,
+                errorLoadningData: true,
+            }));
+    }
 
+    loadRoomData() {
+        instance
+            .get("rooms")
+            .then(resp => {
                 this.setState(
                     {
-                        buildingData: resp.data,
+                        roomData: resp.data,
                         hasLoadedData: true,
                         errorLoadningData: false,
                     });
             }).catch(error => this.setState(
             {
-                data: null,
+                roomData: [],
                 hasLoadedData: true,
                 errorLoadningData: true,
             }));
@@ -49,7 +62,10 @@ export default class Wrapper extends React.Component {
     render() {
         if (this.props.match.params.buildingId) {
             const id = this.props.match.params.buildingId;
-            const data = this.state.buildingData.find(element => element.id + "" === id);
+            const data = {
+                buildingData: this.state.buildingData.find(element => element.id + "" === id),
+                roomData: this.state.roomData.find(value => value.buildingId === id)
+            };
 
             if (data) {
                 return (
@@ -73,10 +89,15 @@ export default class Wrapper extends React.Component {
             }
         }
 
+        const data = {
+            buildingData: this.state.buildingData,
+            roomData: this.state.roomData
+        };
+
         return (
             <React.Fragment>
                 <h1>Buildings:</h1>
-                <DisplayTable type={"buildings"} thead={this.state.buildingHeaders} data={this.state.buildingData}
+                <DisplayTable type={"buildings"} thead={this.state.buildingHeaders} data={data}
                               onDelete={this.onDeleteEvent}/>
                 <hr/>
                 <CreateForm type={"buildings"} onCreateSuccess={this.onCreateSuccess}/>
@@ -92,7 +113,7 @@ export default class Wrapper extends React.Component {
                 {
                     buildingData: newData
                 });
-        }else if (type === "rooms") {
+        } else if (type === "rooms") {
 
         }
     }
