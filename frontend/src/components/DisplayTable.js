@@ -59,7 +59,7 @@ export default class DisplayTable extends React.Component {
         return data.roomData.map(element => {
             return <tr key={element.id}>
                 <Room room={element} key={"R" + element.id} onDelete={onDelete}
-                          onUpdateSuccess={onUpdateSuccess} buildingId={data.id}/>
+                          onUpdateSuccess={onUpdateSuccess}/>
             </tr>
         })
     }

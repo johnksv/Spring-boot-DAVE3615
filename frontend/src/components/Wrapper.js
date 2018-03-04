@@ -23,7 +23,7 @@ export default class Wrapper extends React.Component {
         };
 
         this.onDeleteEvent = this.onDeleteEvent.bind(this);
-        this.onCreateSuccess = this.onCreateSuccess.bind(this);
+        this.editedEntity = this.editedEntity.bind(this);
     }
 
     componentDidMount() {
@@ -62,14 +62,14 @@ export default class Wrapper extends React.Component {
     render() {
         if (this.props.match.params.buildingId) {
             const id = this.props.match.params.buildingId;
-            const buildingData = this.state.buildingData.find(element => element.id + "" === id);
-            const roomData = this.state.roomData.filter(value => value.buildingId === id);
+            const buildingData = this.state.buildingData.find(element => element.id === Number(id));
+            const roomData = this.state.roomData.filter(value => value.buildingId === Number(id));
             const data = {
                 buildingData: buildingData === undefined ? [] : buildingData,
                 roomData
             };
 
-            if (data) {
+            if (buildingData !== undefined) {
                 return (
                     <React.Fragment>
                         <h1>Building: {data.name}</h1>
@@ -78,9 +78,10 @@ export default class Wrapper extends React.Component {
 
                         <h2>Rooms</h2>
                         <DisplayTable type={"rooms"} data={data}
+                                      onUpdateSuccess={this.editedEntity}
                                       onDelete={this.onDeleteEvent}/>
                         <hr/>
-                        <CreateForm type={"rooms"} onCreateSuccess={this.onCreateSuccess}/>
+                        <CreateForm type={"rooms"} buildingId={buildingData.id} onCreateSuccess={this.editedEntity}/>
                     </React.Fragment>
                 )
             } else {
@@ -100,57 +101,49 @@ export default class Wrapper extends React.Component {
             <React.Fragment>
                 <h1>Buildings:</h1>
                 <DisplayTable type={"buildings"} data={data}
+                              onUpdateSuccess={this.editedEntity}
                               onDelete={this.onDeleteEvent}/>
                 <hr/>
-                <CreateForm type={"buildings"} onCreateSuccess={this.onCreateSuccess}/>
+                <CreateForm type={"buildings"} onCreateSuccess={this.editedEntity}/>
             </React.Fragment>
         )
     }
 
 
-    onCreateSuccess(type, newEntity) {
+    editedEntity(type, newEntity) {
         if (type === "buildings") {
             const newData = [...this.state.buildingData, newEntity];
             this.setState(
                 {
                     buildingData: newData
                 });
+            console.log("ok");
         } else if (type === "rooms") {
-
-        }
-    }
-
-    onUpdateSuccess(type, newEntity) {
-        if (type === "building") {
-            //TODO: Insert updated
-            const newData = [...this.state.buildingData, newEntity];
-            this.setState(
-                {
-                    buildingData: newData
-                });
+            const roomData = [...this.state.roomData, newEntity];
+            this.setState({roomData});
         }
     }
 
 
-    onDeleteEvent(type, id, parentId = undefined) {
+    onDeleteEvent(type, id) {
         let newState;
         let url;
+        let field;
 
         if (type === "buildings") {
             url = `buildings/${id}`;
+            field = "buildingData";
             newState = this.state.buildingData.filter(element => element.id !== id);
 
         } else if (type === "rooms") {
             url = `rooms/${id}`;
-            let parent = this.state.buildingData.find(element => element.id === parentId);
-            let newRooms = parent.rooms.filter(element => element.id !== id);
-            //TODO:Check how to remove from state
-            debugger;
+            field = "roomData";
+            newState = this.state.roomData.filter(element => element.id !== id);
         }
 
         instance.delete(url).then(resp => {
             this.setState({
-                buildingData: newState
+                [field]: newState
             });
             console.log("Data with id " + id + " is deleted, of type " + type);
         });

@@ -10,16 +10,6 @@ const validFormat = 'Allowed characters are norwegian, numbers, "-" and space.';
 const validFormatNumber = 'Number must be between -5 and 100';
 const errorMessage = "Could not save to server. It may be due to invalid input. Please try again.";
 
-const buildingFields = [
-    "name",
-    "address"
-];
-
-const roomFields = [
-    "name",
-    "floor"
-];
-
 export default class CreateForm extends React.Component {
 
     constructor(props) {
@@ -36,15 +26,15 @@ export default class CreateForm extends React.Component {
 
         let data;
         if (type === "buildings") {
-            data =this.createBuilding();
+            data = this.createBuilding();
 
         } else if (type === "rooms") {
-            data =this.createRoom()
+            data = this.createRoom()
         }
 
         return (
             <React.Fragment>
-                <h3>New {type.slice(0,-1)}</h3>
+                <h3>Add {type.slice(0, -1)}</h3>
                 {data}
             </React.Fragment>
         );
@@ -82,9 +72,17 @@ export default class CreateForm extends React.Component {
             <FormGroup>
                 <Label for="floor">Floor</Label>
                 <Input type="number" name="floor" id="floor" min="-5" max="100"
-                       onChange={(event) => this.handleInputChange(event, "address")}/>
+                       onChange={(event) => this.handleInputChange(event, "floor")}/>
                 <FormText>{validFormatNumber}</FormText>
             </FormGroup>
+
+            <FormGroup>
+                <Label for="category">Category</Label>
+                <Input type="text" name="category" id="category" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
+                       onChange={(event) => this.handleInputChange(event, "category")}/>
+                <FormText>{validFormat}</FormText>
+            </FormGroup>
+
             <p>{this.state.errorMessage}</p>
             <Button color="primary" type="submit">Add new</Button>
         </Form>
@@ -100,7 +98,11 @@ export default class CreateForm extends React.Component {
 
     submitForm(event) {
         event.preventDefault();
-        const {type} = this.props;
+        const {type, buildingId} = this.props;
+        let url = type;
+        if (type === "rooms") {
+            url = `buildings/${buildingId}/rooms`;
+        }
 
         const entires = Object.entries(this.state.userData);
 
@@ -110,12 +112,11 @@ export default class CreateForm extends React.Component {
             bodyFormData.set(entry[0], entry[1]);
         }
 
-        console.log(bodyFormData);
-        //TODO: Map url so it fit all
         instance
-            .post(type, bodyFormData)
+            .post(url, bodyFormData)
             .then(resp => {
-                console.log(resp);
+                console.log("New data added:");
+                console.log(resp.data);
                 this.props.onCreateSuccess(type, resp.data);
             })
             .catch(err => this.setState({

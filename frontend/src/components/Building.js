@@ -92,9 +92,7 @@ export default class Building extends React.Component {
         formData.set("id", id);
         formData.set("name", editName);
         formData.set("address", editAddress);
-        formData.append('_method', 'PATCH');
 
-        console.log("updating building");
 
         instance
             .patch("buildings", formData)
@@ -103,7 +101,7 @@ export default class Building extends React.Component {
                 this.setState({editing: false});
                 this.props.onUpdateSuccess("building", resp.data);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.response));
 
     }
 

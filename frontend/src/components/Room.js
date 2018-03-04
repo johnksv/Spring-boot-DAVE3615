@@ -21,8 +21,7 @@ export default class Room extends React.Component {
     }
 
     render() {
-        const buildingId = this.props.buildingId;
-        const id  = this.props.room.id;
+        const {id, buildingId}  = this.props.room;
         const name = this.state.editName;
         const floor = this.state.editFloor;
         const category = this.state.editCategory;
@@ -79,12 +78,13 @@ export default class Room extends React.Component {
     }
 
     resetEdit() {
-        const {name, floor} = this.props.room;
+        const {name, floor, category} = this.props.room;
         this.setState(
             {
                 editing: false,
                 editName: name,
-                editFloor: floor
+                editFloor: floor,
+                editCategory: category.name
             });
     }
 
@@ -98,16 +98,16 @@ export default class Room extends React.Component {
     }
 
     submitChanges() {
-        const {id} = this.props.data;
+        const {id} = this.props.room;
         //TODO:Add category
-        const {editName, editFloor} = this.state;
+        const {editName, editFloor, editCategory} = this.state;
 
         let formData = new FormData();
         formData.set("id", id);
         formData.set("name", editName);
         formData.set("floor", editFloor);
+        formData.set("category", editCategory);
 
-        console.log("updating building");
 
         instance
             .patch("rooms", formData)
