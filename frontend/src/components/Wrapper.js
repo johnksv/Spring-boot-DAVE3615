@@ -125,7 +125,7 @@ export default class Wrapper extends React.Component {
     }
 
 
-    onDeleteEvent(type, id) {
+    onDeleteEvent(type, id, buildingId = undefined) {
         let newState;
         let url;
         let field;
@@ -136,7 +136,7 @@ export default class Wrapper extends React.Component {
             newState = this.state.buildingData.filter(element => element.id !== id);
 
         } else if (type === "rooms") {
-            url = `rooms/${id}`;
+            url = `/buildings/${buildingId}/rooms/${id}`;
             field = "roomData";
             newState = this.state.roomData.filter(element => element.id !== id);
         }

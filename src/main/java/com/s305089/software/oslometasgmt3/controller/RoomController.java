@@ -24,7 +24,7 @@ public class RoomController {
     BuildingDao buildingDao;
 
 
-    @GetMapping(value = "/rooms/")
+    @GetMapping(value = "/rooms")
     @CrossOrigin(origins = "http://localhost:3000")
     public Object getAllRooms() {
         return roomDao.findAll();
