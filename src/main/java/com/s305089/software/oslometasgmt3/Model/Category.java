@@ -17,6 +17,13 @@ public class Category {
     @OneToOne(mappedBy = "category")
     private Room room;
 
+    public Category() {
+    }
+
+    public Category(String categoryName) {
+        this.name = categoryName;
+    }
+
     public Integer getId() {
         return id;
     }

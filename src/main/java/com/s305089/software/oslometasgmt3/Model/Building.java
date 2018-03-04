@@ -20,14 +20,10 @@ public class Building {
 
     @OneToMany(mappedBy = "building",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    @JsonIgnore
     private Set<Room> rooms = new HashSet<>();
-
-
-    @JsonProperty("numberOfRooms")
-    public int getRoomsSize() {
-        return rooms.size();
-    }
 
     public Integer getId() {
         return id;

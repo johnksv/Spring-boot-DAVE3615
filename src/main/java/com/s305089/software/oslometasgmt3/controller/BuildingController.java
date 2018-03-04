@@ -55,12 +55,7 @@ public class BuildingController {
     @DeleteMapping(value = "/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public HttpStatus delete(@PathVariable Integer id) {
-        Optional<Building> building = buildingDao.findById(id);
-        if (building.isPresent()) {
-            buildingDao.delete(building.get());
+            buildingDao.deleteById(id);
             return HttpStatus.OK;
-        }
-        return HttpStatus.NOT_FOUND;
     }
-
 }
