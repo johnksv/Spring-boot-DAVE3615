@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 //Copy paste from https://jira.spring.io/browse/SPR-13286
+//So caseSensitive works
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -16,4 +17,5 @@ public class WebConfig implements WebMvcConfigurer {
         matcher.setCaseSensitive(false);
         configurer.setPathMatcher(matcher);
     }
+
 }

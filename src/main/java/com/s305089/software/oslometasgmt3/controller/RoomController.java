@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class RoomController {
 
     @Autowired
@@ -30,16 +31,19 @@ public class RoomController {
     }
 
     @GetMapping(value = "rooms/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Object getRoom(@PathVariable Integer id) {
         return roomDao.findById(id);
     }
 
     @GetMapping(value = "/buildings/{buildingID}/rooms/")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Object getAllRooms(@PathVariable Integer buildingID) {
         return buildingDao.findById(buildingID).get().getRooms();
     }
 
     @PatchMapping(value = "/rooms/{roomID}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Object updateRoom(@PathVariable Integer roomID, @ModelAttribute @Validated Room room) {
         if (room.getId() != null && roomDao.findById(roomID).isPresent()) {
             return roomDao.save(room);

@@ -30,8 +30,8 @@ export default class Wrapper extends React.Component {
         instance
             .get("buildings")
             .then(resp => {
-                this.setState({buildingData: resp.data});
                 this.loadRoomData();
+                this.setState({buildingData: resp.data});
             }).catch(error => this.setState(
             {
                 buildingData: [],
@@ -62,9 +62,11 @@ export default class Wrapper extends React.Component {
     render() {
         if (this.props.match.params.buildingId) {
             const id = this.props.match.params.buildingId;
+            const buildingData = this.state.buildingData.find(element => element.id + "" === id);
+            const roomData = this.state.roomData.filter(value => value.buildingId === id);
             const data = {
-                buildingData: this.state.buildingData.find(element => element.id + "" === id),
-                roomData: this.state.roomData.find(value => value.buildingId === id)
+                buildingData: buildingData === undefined ? [] : buildingData,
+                roomData
             };
 
             if (data) {
@@ -72,10 +74,10 @@ export default class Wrapper extends React.Component {
                     <React.Fragment>
                         <h1>Building: {data.name}</h1>
                         <Link className="mr-2 mt-2" to={`/details/`}>Back to details</Link>
-                        <p>Number of rooms: {data.numberOfRooms}</p>
+                        <p>Number of rooms: {roomData.length}</p>
 
                         <h2>Rooms</h2>
-                        <DisplayTable type={"rooms"} thead={this.state.roomHeaders} data={data}
+                        <DisplayTable type={"rooms"} data={data}
                                       onDelete={this.onDeleteEvent}/>
                         <hr/>
                         <CreateForm type={"rooms"} onCreateSuccess={this.onCreateSuccess}/>
@@ -97,7 +99,7 @@ export default class Wrapper extends React.Component {
         return (
             <React.Fragment>
                 <h1>Buildings:</h1>
-                <DisplayTable type={"buildings"} thead={this.state.buildingHeaders} data={data}
+                <DisplayTable type={"buildings"} data={data}
                               onDelete={this.onDeleteEvent}/>
                 <hr/>
                 <CreateForm type={"buildings"} onCreateSuccess={this.onCreateSuccess}/>
