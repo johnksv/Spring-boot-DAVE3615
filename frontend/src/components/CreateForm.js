@@ -44,7 +44,7 @@ export default class CreateForm extends React.Component {
 
         return (
             <React.Fragment>
-                <h3>New {type}</h3>
+                <h3>New {type.slice(0,-1)}</h3>
                 {data}
             </React.Fragment>
         );
@@ -54,14 +54,14 @@ export default class CreateForm extends React.Component {
         return <Form onSubmit={(event) => this.submitForm(event)} autoComplete="off">
             <FormGroup>
                 <Label for="name">Name</Label>
-                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "name")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
 
             <FormGroup>
                 <Label for="address">Address</Label>
-                <Input type="text" name="address" id="address" pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="address" id="address" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "address")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
@@ -74,7 +74,7 @@ export default class CreateForm extends React.Component {
         return <Form onSubmit={(event) => this.submitForm(event)} autoComplete="off">
             <FormGroup>
                 <Label for="name">Name</Label>
-                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "name")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
@@ -100,6 +100,7 @@ export default class CreateForm extends React.Component {
 
     submitForm(event) {
         event.preventDefault();
+        const {type} = this.props;
 
         const entires = Object.entries(this.state.userData);
 
@@ -112,10 +113,10 @@ export default class CreateForm extends React.Component {
         console.log(bodyFormData);
         //TODO: Map url so it fit all
         instance
-            .post("buildings", bodyFormData)
+            .post(type, bodyFormData)
             .then(resp => {
                 console.log(resp);
-                this.props.onCreateSuccess("building", resp.data);
+                this.props.onCreateSuccess(type, resp.data);
             })
             .catch(err => this.setState({
                 errorMessage

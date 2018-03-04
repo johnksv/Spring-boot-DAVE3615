@@ -2,7 +2,7 @@ import * as React from 'react';
 import CreateForm from "./CreateForm";
 import DisplayTable from "./DisplayTable"
 import axios from "axios";
-
+import {Link} from 'react-router-dom';
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080/'
@@ -55,16 +55,21 @@ export default class Wrapper extends React.Component {
                 return (
                     <React.Fragment>
                         <h1>Building: {data.name}</h1>
+                        <Link className="mr-2 mt-2" to={`/details/`}>Back to details</Link>
                         <p>Number of rooms: {data.numberOfRooms}</p>
 
                         <h2>Rooms</h2>
                         <DisplayTable type={"rooms"} thead={this.state.roomHeaders} data={data}
                                       onDelete={this.onDeleteEvent}/>
+                        <hr/>
                         <CreateForm type={"rooms"} onCreateSuccess={this.onCreateSuccess}/>
                     </React.Fragment>
                 )
             } else {
-                return <p>Invalid ID. No buildings with id {id}</p>
+                return <React.Fragment>
+                    <p>Invalid ID. No buildings with id {id}</p>
+                    <Link className="mr-2 mt-2" to={`/details/`}>Back to details</Link>
+                </React.Fragment>
             }
         }
 
@@ -73,6 +78,7 @@ export default class Wrapper extends React.Component {
                 <h1>Buildings:</h1>
                 <DisplayTable type={"buildings"} thead={this.state.buildingHeaders} data={this.state.buildingData}
                               onDelete={this.onDeleteEvent}/>
+                <hr/>
                 <CreateForm type={"buildings"} onCreateSuccess={this.onCreateSuccess}/>
             </React.Fragment>
         )
@@ -80,12 +86,14 @@ export default class Wrapper extends React.Component {
 
 
     onCreateSuccess(type, newEntity) {
-        if (type === "building") {
+        if (type === "buildings") {
             const newData = [...this.state.buildingData, newEntity];
             this.setState(
                 {
                     buildingData: newData
                 });
+        }else if (type === "rooms") {
+
         }
     }
 
@@ -112,7 +120,7 @@ export default class Wrapper extends React.Component {
         } else if (type === "rooms") {
             url = `rooms/${id}`;
             let parent = this.state.buildingData.find(element => element.id === parentId);
-            let newRooms= parent.rooms.filter(element => element.id !== id);
+            let newRooms = parent.rooms.filter(element => element.id !== id);
             //TODO:Check how to remove from state
             debugger;
         }

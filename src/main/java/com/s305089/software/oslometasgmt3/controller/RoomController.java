@@ -42,7 +42,7 @@ public class RoomController {
         return roomDao.findById(id);
     }
 
-    @PostMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")
     public HttpStatus delete(@PathVariable Integer id) {
         Optional<Room> room = roomDao.findById(id);
         if (room.isPresent()) {

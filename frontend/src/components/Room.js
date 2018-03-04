@@ -99,19 +99,18 @@ export default class Room extends React.Component {
 
     submitChanges() {
         const {id} = this.props.data;
-        //TODO: Fix so it goes to room
-        const {editName, editAddress} = this.state;
+        //TODO:Add category
+        const {editName, editFloor} = this.state;
 
         let formData = new FormData();
         formData.set("id", id);
         formData.set("name", editName);
-        formData.set("address", editAddress);
-        formData.append('_method', 'PATCH');
+        formData.set("floor", editFloor);
 
         console.log("updating building");
 
         instance
-            .patch("buildings", formData)
+            .patch("rooms", formData)
             .then(resp => {
                 console.log(resp);
                 this.setState({editing: false});
