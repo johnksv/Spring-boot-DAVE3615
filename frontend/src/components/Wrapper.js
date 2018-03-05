@@ -92,7 +92,7 @@ export default class Wrapper extends React.Component {
             } else {
                 return <React.Fragment>
                     <p>Invalid ID. No buildings with id {id}</p>
-                    <Link className="mr-2 mt-2" to={`/details/`}>Back to details</Link>
+                    <Link className="mr-2 mt-2" to={`/building/`}>Back to buildings</Link>
                 </React.Fragment>
             }
         }
@@ -158,7 +158,7 @@ export default class Wrapper extends React.Component {
             newState = this.state.roomData.filter(element => element.id !== id);
         }
 
-        instance.delete(url).then(resp => {
+        instance.delete(url).then(() => {
             this.setState({
                 [field]: newState
             });

@@ -110,12 +110,11 @@ export default class Room extends React.Component {
 
         instance
             .patch(url, data)
-            .then(resp => {
-                console.log(resp);
+            .then(response => {
                 this.setState({editing: false});
-                this.props.onUpdateSuccess("rooms", resp.data);
+                this.props.onUpdateSuccess("rooms", response.data);
             })
-            .catch(err => console.log(err));
+            .catch(() => alert("Could not save to server. It may be due to invalid input. Please try again."));
 
     }
 

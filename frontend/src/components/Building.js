@@ -98,12 +98,11 @@ export default class Building extends React.Component {
 
         instance
             .patch(url, data)
-            .then(resp => {
-                console.log(resp);
+            .then(response => {
                 this.setState({editing: false});
-                this.props.onUpdateSuccess("buildings", resp.data);
+                this.props.onUpdateSuccess("buildings", response.data);
             })
-            .catch(err => console.log(err.response));
+            .catch(() => alert("Could not save to server. It may be due to invalid input. Please try again."));
 
     }
 

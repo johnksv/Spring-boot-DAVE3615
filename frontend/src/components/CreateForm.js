@@ -111,7 +111,7 @@ export default class CreateForm extends React.Component {
                 console.log(resp.data);
                 this.props.onCreateSuccess(type, resp.data);
             })
-            .catch(err => this.setState({
+            .catch(() => this.setState({
                 errorMessage
             }));
 
