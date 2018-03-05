@@ -72,9 +72,13 @@ export default class Wrapper extends React.Component {
             if (buildingData !== undefined) {
                 return (
                     <React.Fragment>
-                        <h1>Building: {data.name}</h1>
-                        <Link className="mr-2 mt-2" to={`/details/`}>Back to details</Link>
-                        <p>Number of rooms: {roomData.length}</p>
+                        <h1>Building: {buildingData.name}</h1>
+                        <Link to={`/building/`}>Back to all buildings</Link>
+
+                        <p className="mt-3">
+                            Address: {buildingData.address} <br/>
+                            Number of rooms: {roomData.length}
+                        </p>
 
                         <h2>Rooms</h2>
                         <DisplayTable type={"rooms"} data={data}

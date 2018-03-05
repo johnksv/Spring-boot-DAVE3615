@@ -55,7 +55,7 @@ export default class Building extends React.Component {
                         <Button {...btnAttr} color="info"
                                 onClick={() => this.setState({editing: true})}>Edit</Button>
 
-                        <Link className="btn btn-info mr-2 mt-2" to={`/details/${id}`}>Rooms</Link>
+                        <Link className="btn btn-info mr-2 mt-2" to={`/building/${id}`}>Rooms</Link>
 
                         <Button {...btnAttr} color="danger"
                                 onClick={() => this.props.onDelete("buildings", id)}>Delete</Button>
