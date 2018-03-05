@@ -88,18 +88,20 @@ export default class Building extends React.Component {
         const {id} = this.props.data;
         const {editName, editAddress} = this.state;
 
-        let formData = new FormData();
-        formData.set("id", id);
-        formData.set("name", editName);
-        formData.set("address", editAddress);
+        const url = "buildings/" + id;
+
+        const data = {
+            name: editName,
+            address: editAddress,
+        };
 
 
         instance
-            .patch("buildings", formData)
+            .patch(url, data)
             .then(resp => {
                 console.log(resp);
                 this.setState({editing: false});
-                this.props.onUpdateSuccess("building", resp.data);
+                this.props.onUpdateSuccess("buildings", resp.data);
             })
             .catch(err => console.log(err.response));
 

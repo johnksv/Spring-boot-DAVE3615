@@ -21,7 +21,7 @@ export default class Room extends React.Component {
     }
 
     render() {
-        const {id, buildingId}  = this.props.room;
+        const {id, buildingId} = this.props.room;
         const name = this.state.editName;
         const floor = this.state.editFloor;
         const category = this.state.editCategory;
@@ -99,22 +99,22 @@ export default class Room extends React.Component {
 
     submitChanges() {
         const {id} = this.props.room;
-        //TODO:Add category
         const {editName, editFloor, editCategory} = this.state;
 
-        let formData = new FormData();
-        formData.set("id", id);
-        formData.set("name", editName);
-        formData.set("floor", editFloor);
-        formData.set("category", editCategory);
+        const url = "rooms/" + id;
 
+        const data = {
+            name: editName,
+            floor: editFloor,
+            category: editCategory
+        };
 
         instance
-            .patch("rooms", formData)
+            .patch(url, data)
             .then(resp => {
                 console.log(resp);
                 this.setState({editing: false});
-                this.props.onUpdateSuccess("building", resp.data);
+                this.props.onUpdateSuccess("rooms", resp.data);
             })
             .catch(err => console.log(err));
 

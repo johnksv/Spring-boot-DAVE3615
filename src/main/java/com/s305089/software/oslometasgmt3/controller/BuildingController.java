@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/buildings")
 public class BuildingController {
@@ -22,40 +23,52 @@ public class BuildingController {
     BuildingDao buildingDao;
 
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object create(@ModelAttribute("building") @Validated Building building) {
         if (building != null && !(building.getName().equals("") || building.getAddress().equals(""))) {
             return buildingDao.save(building);
         }
-        return HttpStatus.NOT_FOUND;
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PatchMapping
-    @CrossOrigin(origins = "http://localhost:3000")
-    public Object update(@ModelAttribute("building") @Validated Building building, BindingResult res) {
-        if (building.getId() != null && buildingDao.findById(building.getId()).isPresent()) {
+    @PatchMapping(value = "/{id}")
+    public Object update(@PathVariable Integer id, @RequestBody @Validated Building editBuilding) {
+        Optional<Building> optionalBuilding = buildingDao.findById(id);
+        if (optionalBuilding.isPresent()) {
+            Building building = optionalBuilding.get();
+            if (editBuilding.getName() != null) {
+                building.setName(editBuilding.getName());
+            }
+            if (editBuilding.getAddress() != null) {
+                building.setAddress(editBuilding.getAddress());
+            }
+
             return buildingDao.save(building);
         }
-        return HttpStatus.NOT_FOUND;
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object getAll() {
         return buildingDao.findAll();
     }
 
     @GetMapping(value = "/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object get(@PathVariable Integer id) {
-        return buildingDao.findById(id);
+        Optional<Building> building = buildingDao.findById(id);
+        if (building.isPresent()) {
+            return building.get();
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
 
     @DeleteMapping(value = "/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public HttpStatus delete(@PathVariable Integer id) {
+    public Object delete(@PathVariable Integer id) {
+        if (buildingDao.findById(id).isPresent()) {
+
             buildingDao.deleteById(id);
             return HttpStatus.OK;
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 }

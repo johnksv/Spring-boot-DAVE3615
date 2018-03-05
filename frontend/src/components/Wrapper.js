@@ -112,14 +112,13 @@ export default class Wrapper extends React.Component {
 
     editedEntity(type, newEntity) {
         if (type === "buildings") {
-            const newData = [...this.state.buildingData, newEntity];
+            const buildingData = this.state.buildingData.map(element => element.id === newEntity.id ? newEntity : element);
             this.setState(
                 {
-                    buildingData: newData
+                    buildingData
                 });
-            console.log("ok");
         } else if (type === "rooms") {
-            const roomData = [...this.state.roomData, newEntity];
+            const roomData = this.state.roomData.map(element => element.id === newEntity.id ? newEntity : element);
             this.setState({roomData});
         }
     }

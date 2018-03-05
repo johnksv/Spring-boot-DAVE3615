@@ -9,13 +9,14 @@ import com.s305089.software.oslometasgmt3.model.CreateRoomViewModel;
 import com.s305089.software.oslometasgmt3.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class RoomController {
 
     @Autowired
@@ -25,34 +26,44 @@ public class RoomController {
 
 
     @GetMapping(value = "/rooms")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object getAllRooms() {
         return roomDao.findAll();
     }
 
     @GetMapping(value = "rooms/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object getRoom(@PathVariable Integer id) {
         return roomDao.findById(id);
     }
 
     @GetMapping(value = "/buildings/{buildingID}/rooms/")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object getAllRooms(@PathVariable Integer buildingID) {
-        return buildingDao.findById(buildingID).get().getRooms();
+        Optional<Building> building = buildingDao.findById(buildingID);
+        if (building.isPresent()) {
+            return building.get().getRooms();
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PatchMapping(value = "/rooms/{roomID}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public Object updateRoom(@PathVariable Integer roomID, @ModelAttribute @Validated Room room) {
-        if (room.getId() != null && roomDao.findById(roomID).isPresent()) {
+    public Object updateRoom(@PathVariable Integer roomID, @RequestBody @Validated Room editedRoom) {
+        Optional<Room> roomOptional = roomDao.findById(roomID);
+        if (roomOptional.isPresent()) {
+            Room room = roomOptional.get();
+            if (editedRoom.getName() != null) {
+                room.setName(editedRoom.getName());
+            }
+            if (editedRoom.getFloor() != null) {
+                room.setFloor(editedRoom.getFloor());
+            }
+            if (editedRoom.getCategory() != null) {
+                room.getCategory().setName(editedRoom.getCategory().getName());
+            }
             return roomDao.save(room);
         }
-        return HttpStatus.NOT_FOUND;
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(value = "/buildings/{buildingID}/rooms")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Object createRoom(@PathVariable Integer buildingID, @ModelAttribute @Validated CreateRoomViewModel roomModel) {
 
         Optional<Building> building = buildingDao.findById(buildingID);
@@ -66,12 +77,11 @@ public class RoomController {
 
             return roomDao.save(room);
         }
-        return HttpStatus.NOT_FOUND;
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(value = "/buildings/{buildingID}/rooms/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public HttpStatus delete(@PathVariable Integer buildingID, @PathVariable Integer id) {
+    public Object delete(@PathVariable Integer buildingID, @PathVariable Integer id) {
 
         Optional<Building> buildingOptional = buildingDao.findById(buildingID);
         if (buildingOptional.isPresent()) {
@@ -82,7 +92,7 @@ public class RoomController {
                 return HttpStatus.OK;
             }
         }
-        return HttpStatus.NOT_FOUND;
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
 
     }
 
