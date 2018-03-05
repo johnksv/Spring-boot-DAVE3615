@@ -1,11 +1,7 @@
 import * as React from 'react';
 import {Button, Input} from "reactstrap";
-import axios from "axios/index";
 import {Link} from 'react-router-dom';
-
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/'
-});
+import instance  from "../AxiosInstance";
 
 export default class Building extends React.Component {
 

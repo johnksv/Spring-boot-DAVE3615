@@ -1,10 +1,6 @@
 import * as React from 'react';
 import {Button, Input} from "reactstrap";
-import axios from "axios/index";
-
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/'
-});
+import instance  from "../AxiosInstance";
 
 export default class Room extends React.Component {
 

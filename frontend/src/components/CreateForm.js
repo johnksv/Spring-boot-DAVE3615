@@ -1,10 +1,7 @@
 import * as React from 'react';
-import axios from "axios";
 import {Button, Form, FormGroup, Input, Label, FormText} from "reactstrap";
+import instance  from "../AxiosInstance";
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/'
-});
 
 const validFormat = 'Allowed characters are norwegian, numbers, "-" and space.';
 const validFormatNumber = 'Number must be between -5 and 100';
