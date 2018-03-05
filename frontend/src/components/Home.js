@@ -20,8 +20,8 @@ export class Home extends React.Component {
                 <li><a href='https://facebook.github.io/react/'>React</a> as frontend</li>
 
             </ul>
-            <p>Thanks to <a href='https://github.com/facebook/create-react-app'>create-react-app</a> for taking care of
-                most of the setup.</p>
+            <p><a href='https://github.com/facebook/create-react-app'>create-react-app</a> for easy
+                configuration.</p>
             <p>
                 Please read the README for more information.
             </p>
