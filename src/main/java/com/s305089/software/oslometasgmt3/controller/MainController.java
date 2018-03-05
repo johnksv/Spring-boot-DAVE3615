@@ -26,7 +26,7 @@ public class MainController {
     RoomDao roomDao;
 
 
-    @RequestMapping(value={"", "/", "details/**"}, method = RequestMethod.GET)
+    @RequestMapping(value={"", "/", "building/**"}, method = RequestMethod.GET)
     public ModelAndView hello() {
         return new ModelAndView("index");
     }
@@ -35,12 +35,12 @@ public class MainController {
     @ResponseBody
     public String populate() {
         Building b = new Building();
-        b.setName("P35");
-        b.setAddress("My addresse");
+        b.setName("OsloMet");
+        b.setAddress("Pilestredet 35");
 
         Room r = new Room();
-        r.setName("PI-243");
-        r.setFloor(2);
+        r.setName("PI-556");
+        r.setFloor(5);
         r.setBuilding(b);
 
         Category c = new Category();
