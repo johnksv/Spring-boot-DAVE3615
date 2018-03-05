@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export default axios.create({
-    // baseURL: 'http://localhost:5000/',
+    //For local development
+    // baseURL: 'http://localhost:8080/',
+    //For AWS:
     baseURL: '/',
 });
