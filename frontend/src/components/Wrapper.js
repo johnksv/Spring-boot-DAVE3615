@@ -2,7 +2,7 @@ import * as React from 'react';
 import CreateForm from "./CreateForm";
 import DisplayTable from "./DisplayTable"
 import {Link} from 'react-router-dom';
-import instance  from "../AxiosInstance";
+import instance from "../AxiosInstance";
 
 
 export default class Wrapper extends React.Component {
@@ -15,7 +15,7 @@ export default class Wrapper extends React.Component {
             buildingData: [],
             roomData: [],
             hasLoadedData: false,
-            errorLoadningData: false
+            errorLoadingData: false
         };
 
         this.onDeleteEvent = this.onDeleteEvent.bind(this);
@@ -29,11 +29,11 @@ export default class Wrapper extends React.Component {
             .then(resp => {
                 this.loadRoomData();
                 this.setState({buildingData: resp.data});
-            }).catch(error => this.setState(
+            }).catch(() => this.setState(
             {
                 buildingData: [],
                 hasLoadedData: true,
-                errorLoadningData: true,
+                errorLoadingData: true,
             }));
     }
 
@@ -45,52 +45,30 @@ export default class Wrapper extends React.Component {
                     {
                         roomData: resp.data,
                         hasLoadedData: true,
-                        errorLoadningData: false,
+                        errorLoadingData: false,
                     });
-            }).catch(error => this.setState(
+            }).catch(() => this.setState(
             {
                 roomData: [],
                 hasLoadedData: true,
-                errorLoadningData: true,
+                errorLoadingData: true,
             }));
     }
 
 
     render() {
+        const {hasLoadedData, errorLoadingData} = this.state;
+        if (!hasLoadedData) {
+            return <h1>Loading...</h1>
+        } else if (hasLoadedData && errorLoadingData) {
+            return <React.Fragment>
+                <h1>Error</h1>
+                <p>There was an error loading the data. Please try again.</p>
+            </React.Fragment>
+        }
+
         if (this.props.match.params.buildingId) {
-            const id = this.props.match.params.buildingId;
-            const buildingData = this.state.buildingData.find(element => element.id === Number(id));
-            const roomData = this.state.roomData.filter(value => value.buildingId === Number(id));
-            const data = {
-                buildingData: buildingData === undefined ? [] : buildingData,
-                roomData
-            };
-
-            if (buildingData !== undefined) {
-                return (
-                    <React.Fragment>
-                        <h1>Building: {buildingData.name}</h1>
-                        <Link to={`/building/`}>Back to all buildings</Link>
-
-                        <p className="mt-3">
-                            Address: {buildingData.address} <br/>
-                            Number of rooms: {roomData.length}
-                        </p>
-
-                        <h2>Rooms</h2>
-                        <DisplayTable type={"rooms"} data={data}
-                                      onUpdateSuccess={this.editedEntity}
-                                      onDelete={this.onDeleteEvent}/>
-                        <hr/>
-                        <CreateForm type={"rooms"} buildingId={buildingData.id} onCreateSuccess={this.onNewEntity}/>
-                    </React.Fragment>
-                )
-            } else {
-                return <React.Fragment>
-                    <p>Invalid ID. No buildings with id {id}</p>
-                    <Link className="mr-2 mt-2" to={`/building/`}>Back to buildings</Link>
-                </React.Fragment>
-            }
+            return this.renderRoom();
         }
 
         const data = {
@@ -160,6 +138,43 @@ export default class Wrapper extends React.Component {
             });
             console.log("Data with id " + id + " is deleted, of type " + type);
         });
+    }
+
+
+    renderRoom() {
+        const id = this.props.match.params.buildingId;
+        const buildingData = this.state.buildingData.find(element => element.id === Number(id));
+        const roomData = this.state.roomData.filter(value => value.buildingId === Number(id));
+        const data = {
+            buildingData: buildingData === undefined ? [] : buildingData,
+            roomData
+        };
+
+        if (buildingData !== undefined) {
+            return (
+                <React.Fragment>
+                    <h1>Building: {buildingData.name}</h1>
+                    <Link to={`/building/`}>Back to all buildings</Link>
+
+                    <p className="mt-3">
+                        Address: {buildingData.address} <br/>
+                        Number of rooms: {roomData.length}
+                    </p>
+
+                    <h2>Rooms</h2>
+                    <DisplayTable type={"rooms"} data={data}
+                                  onUpdateSuccess={this.editedEntity}
+                                  onDelete={this.onDeleteEvent}/>
+                    <hr/>
+                    <CreateForm type={"rooms"} buildingId={buildingData.id} onCreateSuccess={this.onNewEntity}/>
+                </React.Fragment>
+            )
+        } else {
+            return <React.Fragment>
+                <p>Invalid ID. No buildings with id {id}</p>
+                <Link className="mr-2 mt-2" to={`/building/`}>Back to buildings</Link>
+            </React.Fragment>
+        }
     }
 
 }
