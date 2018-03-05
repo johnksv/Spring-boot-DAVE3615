@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -14,6 +16,8 @@ public class Room {
     @NotNull
     private String name;
     @NotNull
+    @Min(-5)
+    @Max(100)
     private Integer floor;
     @ManyToOne()
     @JsonIgnore
