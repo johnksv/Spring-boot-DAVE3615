@@ -3,7 +3,7 @@ import {Button, Form, FormGroup, Input, Label, FormText} from "reactstrap";
 import instance  from "../AxiosInstance";
 
 
-const validFormat = 'Allowed characters are norwegian, numbers, "-" and space.';
+const validFormat = 'Allowed characters are norwegian, numbers, "-", "," and space.';
 const validFormatNumber = 'Number must be between -5 and 100';
 const errorMessage = "Could not save to server. It may be due to invalid input. Please try again.";
 
@@ -41,14 +41,14 @@ export default class CreateForm extends React.Component {
         return <Form onSubmit={(event) => this.submitForm(event)} autoComplete="off">
             <FormGroup>
                 <Label for="name">Name</Label>
-                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+[,\-\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "name")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
 
             <FormGroup>
                 <Label for="address">Address</Label>
-                <Input type="text" name="address" id="address" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="address" id="address" pattern="[a-zA-ZæøåÆØÅ\-\d]+[,\-\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "address")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
@@ -61,7 +61,7 @@ export default class CreateForm extends React.Component {
         return <Form onSubmit={(event) => this.submitForm(event)} autoComplete="off">
             <FormGroup>
                 <Label for="name">Name</Label>
-                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="name" id="name" pattern="[a-zA-ZæøåÆØÅ\-\d]+[,\-\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "name")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
@@ -75,7 +75,7 @@ export default class CreateForm extends React.Component {
 
             <FormGroup>
                 <Label for="category">Category</Label>
-                <Input type="text" name="category" id="category" pattern="[a-zA-ZæøåÆØÅ\-\d]+[\sa-zA-ZæøåÆØÅ\d]*"
+                <Input type="text" name="category" id="category" pattern="[a-zA-ZæøåÆØÅ\-\d]+[,\-\sa-zA-ZæøåÆØÅ\d]*"
                        onChange={(event) => this.handleInputChange(event, "category")}/>
                 <FormText>{validFormat}</FormText>
             </FormGroup>
