@@ -64,7 +64,7 @@ public class RoomController {
     }
 
     @PostMapping(value = "/buildings/{buildingID}/rooms")
-    public Object createRoom(@PathVariable Integer buildingID, @ModelAttribute @Validated CreateRoomViewModel roomModel) {
+    public Object createRoom(@PathVariable Integer buildingID, @RequestBody @Validated CreateRoomViewModel roomModel) {
 
         Optional<Building> building = buildingDao.findById(buildingID);
         if (building.isPresent()) {

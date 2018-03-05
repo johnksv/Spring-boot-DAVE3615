@@ -23,7 +23,7 @@ public class BuildingController {
     BuildingDao buildingDao;
 
     @PostMapping
-    public Object create(@ModelAttribute("building") @Validated Building building) {
+    public Object create(@RequestBody @Validated Building building) {
         if (building != null && !(building.getName().equals("") || building.getAddress().equals(""))) {
             return buildingDao.save(building);
         }

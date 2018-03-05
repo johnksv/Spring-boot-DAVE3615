@@ -37,8 +37,8 @@ export default class Room extends React.Component {
                                onChange={(event) => this.handleInputChange(event, "editName")}/>
                     </td>
                     <td>
-                        <Input value={floor} type="text" name="floor" id="floor"
-                               pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
+                        <Input value={floor} type="number" name="floor" id="floor"
+                               min="-5" max="100"
                                onChange={(event) => this.handleInputChange(event, "editFloor")}/>
                     </td>
                     <td>
@@ -90,8 +90,7 @@ export default class Room extends React.Component {
 
 
     handleInputChange(event, field) {
-
-        const val = event.target.value;
+        const  val = event.target.value;
         this.setState({
             [field]: val
         });

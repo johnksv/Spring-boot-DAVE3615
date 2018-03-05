@@ -23,6 +23,7 @@ export default class Wrapper extends React.Component {
         };
 
         this.onDeleteEvent = this.onDeleteEvent.bind(this);
+        this.onNewEntity = this.onNewEntity.bind(this);
         this.editedEntity = this.editedEntity.bind(this);
     }
 
@@ -85,7 +86,7 @@ export default class Wrapper extends React.Component {
                                       onUpdateSuccess={this.editedEntity}
                                       onDelete={this.onDeleteEvent}/>
                         <hr/>
-                        <CreateForm type={"rooms"} buildingId={buildingData.id} onCreateSuccess={this.editedEntity}/>
+                        <CreateForm type={"rooms"} buildingId={buildingData.id} onCreateSuccess={this.onNewEntity}/>
                     </React.Fragment>
                 )
             } else {
@@ -108,21 +109,34 @@ export default class Wrapper extends React.Component {
                               onUpdateSuccess={this.editedEntity}
                               onDelete={this.onDeleteEvent}/>
                 <hr/>
-                <CreateForm type={"buildings"} onCreateSuccess={this.editedEntity}/>
+                <CreateForm type={"buildings"} onCreateSuccess={this.onNewEntity}/>
             </React.Fragment>
         )
     }
 
 
-    editedEntity(type, newEntity) {
+    onNewEntity(type, newEntity) {
         if (type === "buildings") {
-            const buildingData = this.state.buildingData.map(element => element.id === newEntity.id ? newEntity : element);
+            const buildingData = [...this.state.buildingData, newEntity];
             this.setState(
                 {
                     buildingData
                 });
         } else if (type === "rooms") {
-            const roomData = this.state.roomData.map(element => element.id === newEntity.id ? newEntity : element);
+            const roomData = [...this.state.roomData, newEntity];
+            this.setState({roomData});
+        }
+    }
+
+    editedEntity(type, editedEntity) {
+        if (type === "buildings") {
+            const buildingData = this.state.buildingData.map(element => element.id === editedEntity.id ? editedEntity : element);
+            this.setState(
+                {
+                    buildingData
+                });
+        } else if (type === "rooms") {
+            const roomData = this.state.roomData.map(element => element.id === editedEntity.id ? editedEntity : element);
             this.setState({roomData});
         }
     }

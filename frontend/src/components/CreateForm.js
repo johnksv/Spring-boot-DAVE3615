@@ -104,16 +104,8 @@ export default class CreateForm extends React.Component {
             url = `buildings/${buildingId}/rooms`;
         }
 
-        const entires = Object.entries(this.state.userData);
-
-        let bodyFormData = new FormData();
-        for (let i = 0; i < entires.length; i++) {
-            let entry = entires[i];
-            bodyFormData.set(entry[0], entry[1]);
-        }
-
         instance
-            .post(url, bodyFormData)
+            .post(url, this.state.userData)
             .then(resp => {
                 console.log("New data added:");
                 console.log(resp.data);
