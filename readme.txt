@@ -6,7 +6,7 @@ Running instance on AWS: http://s305089-asgmt3.eu-central-1.elasticbeanstalk.com
 
 To launch on local machine:
 Unpack the zip to a destination of your choice.
-Decide if you want to use MySQL or HSQLDB.
+Decide if you want to use HSQLDB in-memory or MySQL.
 	HSQLDB:
 		Nothing is needed, I've already set it up. :) 
 	MySQL:
