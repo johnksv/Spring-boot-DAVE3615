@@ -18,6 +18,7 @@ Frontend development:
 Froentend is coded in react (https://reactjs.org/).
 Requirements: Yarn (https://yarnpkg.com/en/)
 I used create-react-app so I didn't have to do all the configurtaion.
+Please see frontend/package.json for which libraries I have used.
 If you want to tweak the fronend, you will have to run up a own frontend development server (runs on localhost:3000).
 To get started:
 	cd frontend
