@@ -25,17 +25,17 @@ public class RoomController {
     BuildingDao buildingDao;
 
 
-    @GetMapping(value = "/rooms")
+    @GetMapping(value = MainController.API_V1 + "/rooms")
     public Object getAllRooms() {
         return roomDao.findAll();
     }
 
-    @GetMapping(value = "rooms/{id}")
+    @GetMapping(value = MainController.API_V1 + "/rooms/{id}")
     public Object getRoom(@PathVariable Integer id) {
         return roomDao.findById(id);
     }
 
-    @GetMapping(value = "/buildings/{buildingID}/rooms/")
+    @GetMapping(value = MainController.API_V1 + "/buildings/{buildingID}/rooms/")
     public Object getAllRooms(@PathVariable Integer buildingID) {
         Optional<Building> building = buildingDao.findById(buildingID);
         if (building.isPresent()) {
@@ -44,7 +44,7 @@ public class RoomController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PatchMapping(value = "/rooms/{roomID}")
+    @PatchMapping(value = MainController.API_V1 + "/rooms/{roomID}")
     public Object updateRoom(@PathVariable Integer roomID, @RequestBody @Validated Room editedRoom) {
         Optional<Room> roomOptional = roomDao.findById(roomID);
         if (roomOptional.isPresent()) {
@@ -63,7 +63,7 @@ public class RoomController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/buildings/{buildingID}/rooms")
+    @PostMapping(value = MainController.API_V1 + "/buildings/{buildingID}/rooms")
     public Object createRoom(@PathVariable Integer buildingID, @RequestBody @Validated CreateRoomViewModel roomModel) {
 
         Optional<Building> building = buildingDao.findById(buildingID);
@@ -80,7 +80,7 @@ public class RoomController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/buildings/{buildingID}/rooms/{id}")
+    @DeleteMapping(value = MainController.API_V1 + "/buildings/{buildingID}/rooms/{id}")
     public Object delete(@PathVariable Integer buildingID, @PathVariable Integer id) {
 
         Optional<Building> buildingOptional = buildingDao.findById(buildingID);

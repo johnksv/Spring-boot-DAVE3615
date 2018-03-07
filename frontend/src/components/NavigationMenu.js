@@ -6,7 +6,7 @@ export class NavigationMenu extends React.Component {
         return <div className='main-nav'>
             <div className='navbar navbar-inverse'>
                 <div className='navbar-header'>
-                    <Link className='navbar-brand' to={ '/' }>Assignment 3</Link>
+                    <Link className='navbar-brand' to={ '/' }>Assignment 4</Link>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse'>

@@ -3,8 +3,11 @@ import * as React from 'react';
 export class Home extends React.Component {
     render() {
         return <div>
-            <h1>Assignment 3 - Software Architecture and Frameworks</h1>
-            <p>Welcome to the home screen of assignment 3.</p>
+            <h1>Assignment 4 - Software Architecture and Frameworks</h1>
+            <p>Welcome to the home screen of assignment 4.</p>
+            <p>
+                This is the exact same page as for assigment 3. The only difference is that the backend API endpoints have changed URL.
+            </p>
             <p>
                 A simple CRUD application to manage buildings and their rooms. Please see the PDF for assignment
                 detalis.

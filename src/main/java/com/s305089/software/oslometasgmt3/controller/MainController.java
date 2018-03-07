@@ -18,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
+    public static final String API_V1 = "/api/v1";
+
+
     private Logger log = LogManager.getRootLogger();
 
     @Autowired

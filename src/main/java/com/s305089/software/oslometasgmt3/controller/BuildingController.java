@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/buildings")
+@RequestMapping(MainController.API_V1 + "/buildings")
 public class BuildingController {
 
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -22,7 +22,7 @@ public class BuildingController {
     @Autowired
     BuildingDao buildingDao;
 
-    @PostMapping
+    @PostMapping(value = {"", "/add"})
     public Object create(@RequestBody @Validated Building building) {
         if (building != null && !(building.getName().equals("") || building.getAddress().equals(""))) {
             logger.info("Created new building with name {}", building.getName());
@@ -48,7 +48,7 @@ public class BuildingController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping
+    @GetMapping(value = {"", "/all"})
     public Object getAll() {
         return buildingDao.findAll();
     }
