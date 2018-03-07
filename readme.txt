@@ -1,9 +1,30 @@
-Assignment 3: OsloMet Building Management System - Spring Boot
+Assignment 4: OsloMet Building Management System - Spring Boot, REST API
 DAVE3615 - Software Architecture and Frameworks
 By: John Kasper Svergja - s305089
 
-Running instance on AWS: http://s305089-asgmt3.eu-central-1.elasticbeanstalk.com/
+Running instance on AWS: http://s305089-asgmt4.eu-central-1.elasticbeanstalk.com/
 
+This assignment is the same as assignment 3, except these changes:
+REST API:
+    Base url is now /api/v1/
+    Added endpoint:
+        GET
+            /api/v1/buildings/{buildingId}
+        POST
+            /api/v1/buildings/add
+        GET
+            /api/v1/buildings/all
+Structure of the json-object is changed to match the requirements.
+Please note that the new structure is a bit redundant, as I also kept the structure I used in assignment.
+    One example of this is that every building now has a list of rooms, as well as the room include a buildingId.
+
+
+
+The rest of the README is the same as for assignment 3:
+
+
+
+Running instance on AWS (assignment 3): http://s305089-asgmt3.eu-central-1.elasticbeanstalk.com/
 To launch on local machine:
 Unpack the zip to a destination of your choice.
 Decide if you want to use HSQLDB in-memory or MySQL.
@@ -58,7 +79,7 @@ Room:
 		/buildings/{buildingID}/rooms/{id}	
 
 
-Design choiches:
+Design choices:
 Service layer:
 	I have not implemented a service layer in this assigment.
 	The way I see it, use of a service layer would be an anti-pattern in this assigment, as it just wraps around the dao.
