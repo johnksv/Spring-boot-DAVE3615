@@ -1,6 +1,7 @@
 package com.s305089.software.oslometasgmt3.controller;
 
 import com.s305089.software.oslometasgmt3.dao.BuildingDao;
+import com.s305089.software.oslometasgmt3.dao.RoomDao;
 import com.s305089.software.oslometasgmt3.model.Building;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,9 @@ public class BuildingController {
     public Object create(@RequestBody @Validated Building building) {
         if (building != null && !(building.getName().equals("") || building.getAddress().equals(""))) {
             logger.info("Created new building with name {}", building.getName());
+            building.getRooms().forEach(room -> room.setBuilding(building));
             return buildingDao.save(building);
+
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }

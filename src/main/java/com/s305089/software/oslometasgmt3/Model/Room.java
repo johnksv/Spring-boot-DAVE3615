@@ -27,7 +27,10 @@ public class Room {
 
     @JsonProperty
     public Integer getBuildingId(){
-        return building.getId();
+        if(building != null){
+            return building.getId();
+        }
+        return -1;
     }
 
     public void setId(Integer id) {

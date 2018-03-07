@@ -22,7 +22,6 @@ public class Building {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true)
-    @JsonIgnore
     private Set<Room> rooms = new HashSet<>();
 
     public Integer getId() {
