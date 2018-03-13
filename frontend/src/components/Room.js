@@ -6,13 +6,12 @@ export default class Room extends React.Component {
 
     constructor(props) {
         super(props);
-        const {name, floor, category} = this.props.room;
+        const {name, floor} = this.props.room;
 
         this.state = {
             editing: false,
             editName: name,
             editFloor: floor,
-            editCategory: category.name
         }
     }
 
@@ -20,7 +19,6 @@ export default class Room extends React.Component {
         const {id, buildingId} = this.props.room;
         const name = this.state.editName;
         const floor = this.state.editFloor;
-        const category = this.state.editCategory;
 
         const btnAttr = {className: "mr-2 mt-2"};
         if (this.state.editing) {
@@ -38,11 +36,6 @@ export default class Room extends React.Component {
                                onChange={(event) => this.handleInputChange(event, "editFloor")}/>
                     </td>
                     <td>
-                        <Input value={category} type="text" name="category" id="category"
-                               pattern="[a-zA-ZæøåÆØÅ\-\d]+\s*[a-zA-ZæøåÆØÅ\d]*"
-                               onChange={(event) => this.handleInputChange(event, "editCategory")}/>
-                    </td>
-                    <td>
                         <Button {...btnAttr} color="success"
                                 onClick={() => this.submitChanges()}>Save</Button>
                         <Button {...btnAttr} color="secondary"
@@ -56,7 +49,6 @@ export default class Room extends React.Component {
                     <td>{id}</td>
                     <td>{name}</td>
                     <td>{floor}</td>
-                    <td>{category}</td>
                     <td>
                         <Button {...btnAttr} color="info"
                                 onClick={() => this.setState({editing: true})}>
@@ -74,13 +66,12 @@ export default class Room extends React.Component {
     }
 
     resetEdit() {
-        const {name, floor, category} = this.props.room;
+        const {name, floor} = this.props.room;
         this.setState(
             {
                 editing: false,
                 editName: name,
                 editFloor: floor,
-                editCategory: category.name
             });
     }
 

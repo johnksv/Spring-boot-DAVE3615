@@ -73,13 +73,6 @@ export default class CreateForm extends React.Component {
                 <FormText>{validFormatNumber}</FormText>
             </FormGroup>
 
-            <FormGroup>
-                <Label for="category">Category</Label>
-                <Input type="text" name="category" id="category" pattern="[a-zA-ZæøåÆØÅ\-\d]+[,\-\sa-zA-ZæøåÆØÅ\d]*"
-                       onChange={(event) => this.handleInputChange(event, "category")}/>
-                <FormText>{validFormat}</FormText>
-            </FormGroup>
-
             <p>{this.state.errorMessage}</p>
             <Button color="primary" type="submit">Add new</Button>
         </Form>

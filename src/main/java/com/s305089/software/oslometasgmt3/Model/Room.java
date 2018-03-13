@@ -8,10 +8,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@Entity
+
 public class Room {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
     private String name;
@@ -19,16 +17,13 @@ public class Room {
     @Min(-5)
     @Max(100)
     private Integer floor;
-    @ManyToOne()
     @JsonIgnore
-    private Building building;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Category category;
+    private Integer buildingId;
 
     @JsonProperty
     public Integer getBuildingId(){
-        if(building != null){
-            return building.getId();
+        if(buildingId != null){
+            return buildingId;
         }
         return -1;
     }
@@ -57,21 +52,14 @@ public class Room {
         this.floor = floor;
     }
 
-    public Building getBuilding() {
-        return building;
+    public Integer getBuilding() {
+        return buildingId;
     }
 
-    public void setBuilding(Building building) {
-        this.building = building;
+    public void setBuildingId(Integer buildingId) {
+        this.buildingId = buildingId;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     @Override
     public String toString() {
@@ -79,8 +67,7 @@ public class Room {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", floor=" + floor +
-                ", building=" + building.getName() +
-                ", category=" + category.getName() +
+                ", building=" + buildingId +
                 '}';
     }
 }

@@ -4,7 +4,7 @@ import Building from "./Building";
 import Room from "./Room";
 
 const buildingHeaders = ["#", "Name", "Address", "Rooms", ""];
-const roomHeaders = ["#", "Name", "Floor", "Category", ""];
+const roomHeaders = ["#", "Name", "Floor", ""];
 
 export default class DisplayTable extends React.Component {
 

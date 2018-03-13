@@ -1,52 +1,38 @@
 package com.s305089.software.oslometasgmt3.controller;
 
-import com.s305089.software.oslometasgmt3.dao.BuildingDao;
-import com.s305089.software.oslometasgmt3.dao.CategoryDao;
-import com.s305089.software.oslometasgmt3.dao.RoomDao;
-import com.s305089.software.oslometasgmt3.model.Building;
-import com.s305089.software.oslometasgmt3.model.Category;
 import com.s305089.software.oslometasgmt3.model.CreateRoomViewModel;
 import com.s305089.software.oslometasgmt3.model.Room;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class RoomController {
 
-    @Autowired
-    RoomDao roomDao;
-    @Autowired
-    BuildingDao buildingDao;
-
 
     @GetMapping(value = MainController.API_V1 + "/rooms")
     public Object getAllRooms() {
-        return roomDao.findAll();
+        return BuildingData.getAllRooms();
     }
 
     @GetMapping(value = MainController.API_V1 + "/rooms/{id}")
     public Object getRoom(@PathVariable Integer id) {
-        return roomDao.findById(id);
+        return BuildingData.getAllRooms().stream().filter(room -> room.getId().equals(id)).findFirst().get();
     }
 
     @GetMapping(value = MainController.API_V1 + "/buildings/{buildingID}/rooms/")
     public Object getAllRooms(@PathVariable Integer buildingID) {
-        Optional<Building> building = buildingDao.findById(buildingID);
-        if (building.isPresent()) {
-            return building.get().getRooms();
-        }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return BuildingData.getAllRooms(buildingID);
     }
 
     @PatchMapping(value = MainController.API_V1 + "/rooms/{roomID}")
     public Object updateRoom(@PathVariable Integer roomID, @RequestBody @Validated Room editedRoom) {
-        Optional<Room> roomOptional = roomDao.findById(roomID);
+        Optional<Room> roomOptional = BuildingData.findRoom(roomID);
         if (roomOptional.isPresent()) {
             Room room = roomOptional.get();
             if (editedRoom.getName() != null) {
@@ -55,10 +41,9 @@ public class RoomController {
             if (editedRoom.getFloor() != null) {
                 room.setFloor(editedRoom.getFloor());
             }
-            if (editedRoom.getCategory() != null) {
-                room.getCategory().setName(editedRoom.getCategory().getName());
-            }
-            return roomDao.save(room);
+
+            BuildingData.updateRoom(roomID, room);
+            return room;
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
@@ -66,31 +51,24 @@ public class RoomController {
     @PostMapping(value = MainController.API_V1 + "/buildings/{buildingID}/rooms")
     public Object createRoom(@PathVariable Integer buildingID, @RequestBody @Validated CreateRoomViewModel roomModel) {
 
-        Optional<Building> building = buildingDao.findById(buildingID);
-        if (building.isPresent()) {
+        if (BuildingData.buildingExsist(buildingID)) {
             Room room = new Room();
 
-            room.setBuilding(building.get());
+            room.setId(BuildingData.getAllRooms().size()+500);
             room.setName(roomModel.getName());
             room.setFloor(roomModel.getFloor());
-            room.setCategory(new Category(roomModel.getCategory()));
+            room.setBuildingId(buildingID);
 
-            return roomDao.save(room);
+            BuildingData.addRoom(buildingID, room);
+            return room;
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(value = MainController.API_V1 + "/buildings/{buildingID}/rooms/{id}")
     public Object delete(@PathVariable Integer buildingID, @PathVariable Integer id) {
-
-        Optional<Building> buildingOptional = buildingDao.findById(buildingID);
-        if (buildingOptional.isPresent()) {
-            Building building = buildingOptional.get();
-            if (building.getRooms().removeIf(room -> room.getId().equals(id))) {
-                buildingDao.save(building);
-
+        if (BuildingData.deleteBuilding(buildingID)) {
                 return HttpStatus.OK;
-            }
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
 
